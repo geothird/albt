@@ -1,6 +1,26 @@
 # Aws Lambda Build Tool
 
+[![Build Status](https://travis-ci.org/geothird/albt.svg?branch=master)](https://travis-ci.org/geothird/albt)
+
 > Build and deploy projects that use AWS Lambda.
+
+```bash
+$ albt --help
+Usage: albt [OPTIONS] COMMAND [ARGS]...
+
+  AWS Lambda Build Tool
+
+  Build and deploy projects that use AWS Lambda.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  deploy   Deploy lambda functions
+  invoke   Invoke lambda functions
+  new      Create new lambda function
+  version  Display albt version
+```
 
 ## Goals
 
