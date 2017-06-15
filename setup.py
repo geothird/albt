@@ -16,12 +16,13 @@ with open(os.path.abspath(os.path.join(os.path.dirname(__file__), 'VERSION'))) a
 setup(
     name='albt',
     version=version,
+    url='https://github.com/geothird/albt',
     description='AWS Lambda Build tool',
     long_description=long_description,
     author='geothird',
     license='MIT',
     classifiers=[
-        'Development Status :: 3 - Beta',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',

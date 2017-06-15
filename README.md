@@ -11,6 +11,12 @@
 
 # Installing
 
+## Install from pip
+
+```bash
+$ pip install albt
+```
+
 ## Local development installation
 
 ```bash
