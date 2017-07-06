@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .printmsg import PrintMsg
 from .lamb import Lambda
 from .config import Config

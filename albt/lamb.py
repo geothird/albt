@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from os.path import basename
 from .printmsg import PrintMsg
 from botocore.exceptions import ClientError
