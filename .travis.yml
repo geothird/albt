@@ -9,6 +9,6 @@ python:
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: "pip install --editable ."
 # command to run tests
-script: python albt/albt.py
+script: albt --help
