@@ -1,6 +1,6 @@
-from printmsg import PrintMsg
-from lamb import Lambda
-from config import Config
+from .printmsg import PrintMsg
+from .lamb import Lambda
+from .config import Config
 from os.path import basename
 import os
 import json

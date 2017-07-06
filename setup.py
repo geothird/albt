@@ -4,7 +4,8 @@
 """
 Setuptools module for albt
 """
-from setuptools import setup
+from setuptools import setup, find_packages
+from codecs import open
 import os
 
 with open(os.path.abspath(os.path.join(os.path.dirname(__file__), 'README.rst'))) as f:
@@ -29,11 +30,10 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.6'
     ],
     keywords='aws lambda python',
-    py_modules=['albt'],
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[
         'Click',
         'boto3',

@@ -120,6 +120,38 @@ import os
 DEBUG = os.environ['Debug'] == 'True'
 ```
 
+## Building
+
+### Create source distributuion
+
+```bash
+python setup.py sdist
+```
+
+### Wheel
+
+Install wheel
+
+```bash
+pip install wheel
+```
+
+### Install universal
+
+```bash
+python setup.py bdist_wheel --universal
+```
+
+### Uploading to PyPi
+
+```bash
+twine upload dist/*
+```
+
+## TODO
+
+- Fix albt.albt import error on install
+- Add environment variable encryption
 
 ## License
 

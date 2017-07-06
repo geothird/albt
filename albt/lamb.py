@@ -1,5 +1,5 @@
 from os.path import basename
-from printmsg import PrintMsg
+from .printmsg import PrintMsg
 from botocore.exceptions import ClientError
 import concurrent.futures
 import json
