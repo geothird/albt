@@ -37,14 +37,6 @@ Commands:
 $ pip install albt
 ```
 
-## Local development installation
-
-```bash
-$ virtualenv venv
-$ . venv/bin/activate
-$ pip install --editable .
-```
-
 # Usage
 
 ## Creating
@@ -122,13 +114,19 @@ DEBUG = os.environ['Debug'] == 'True'
 
 ## Building
 
+### Local development installation
+
+```bash
+$ virtualenv venv
+$ . venv/bin/activate
+$ pip install --editable .
+```
+
 ### Create source distributuion
 
 ```bash
 python setup.py sdist
 ```
-
-### Wheel
 
 Install wheel
 
@@ -136,7 +134,7 @@ Install wheel
 pip install wheel
 ```
 
-### Install universal
+Install universal
 
 ```bash
 python setup.py bdist_wheel --universal
@@ -146,6 +144,13 @@ python setup.py bdist_wheel --universal
 
 ```bash
 twine upload dist/*
+```
+
+## Signing and uploading to PyPi
+
+```bash
+gpg --detach-sign -a dist/albt-<VERSION>.tar.gz
+twine upload dist/albt-<VERSION>.tar.gz dist/albt-<VERSION>.tar.gz.asc
 ```
 
 ## TODO
