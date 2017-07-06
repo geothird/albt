@@ -150,8 +150,8 @@ twine upload dist/*
 
 ## TODO
 
-- Fix albt.albt import error on install
 - Add environment variable encryption
+- Add swagger file generation and import for api gateway lambda project
 
 ## License
 
