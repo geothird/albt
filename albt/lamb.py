@@ -233,8 +233,7 @@ class Lambda(object):
         self.__zip_function__()
         response = self.client.update_function_code(
             FunctionName=self.function_name,
-            ZipFile=self.__read_zip__(),
-            DryRun=self.dry
+            ZipFile=self.__read_zip__()
         )
         if self.debug:
             PrintMsg.out(response)
