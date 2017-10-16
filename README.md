@@ -31,6 +31,15 @@ Commands:
 
 # Installing
 
+## Requirements
+
+[Aws cli](http://aws.amazon.com/cli/) is a required pre-installation step, or at minimum creating a credentials file.
+
+```bashg
+$ aws configure
+```
+This will prompt for credentials and set up the `~/.aws/credentials` file.
+
 ## Install from pip
 
 ```bash
@@ -155,8 +164,9 @@ twine upload dist/albt-<VERSION>.tar.gz dist/albt-<VERSION>.tar.gz.asc
 
 ## TODO
 
-- Add environment variable encryption
+- Credentials profile support
 - Add swagger file generation and import for api gateway lambda project
+- Add cloud formation for project roles policies and resources
 
 ## License
 

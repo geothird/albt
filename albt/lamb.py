@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from os.path import basename
 from .printmsg import PrintMsg
+from .iam_role import IamRole
 from botocore.exceptions import ClientError
 import concurrent.futures
 import json
@@ -8,6 +9,7 @@ import zipfile
 import base64
 import boto3
 import os
+import re
 
 
 class Lambda(object):
@@ -30,6 +32,14 @@ class Lambda(object):
     runtime = None
     invoke_type = None
     payload = None
+    default_role_policy = {
+        "Version": "2012-10-17",
+        "Statement": {
+            "Effect": "Allow",
+            "Principal": {"Service": "lambda.amazonaws.com"},
+            "Action": "sts:AssumeRole"
+        }
+    }
 
     def __init__(self, **kwargs):
         """
@@ -128,9 +138,14 @@ class Lambda(object):
                 self.function_name, self.region))
             self.__update__()
         except ClientError as e:
+            m = re.search('.*\sarn:aws:lambda:(.*):(.*):function:.*', str(e))
+            if m:
+                account_id = m.group(2)
+            else:
+                account_id = None
             PrintMsg.out(e)
             PrintMsg.creating(self.function_name)
-            self.__create__()
+            self.__create__(account_id)
 
     def update(self):
         """
@@ -248,13 +263,57 @@ class Lambda(object):
             PrintMsg.cmd('Sha256: {}'.format(
                 response['CodeSha256']), 'UPDATED CONFIG')
 
-    def __create__(self):
+    def __create__(self, account_id=None):
         """
         Create function code and properties
         :return:
         """
         self.__details__()
         self.__zip_function__()
+        if account_id and not self.dry and ('Role' not in self.config or not self.config['Role']):
+            # Create a default role when one was not specified
+            role = IamRole(self.debug)
+            role_name = self.config['FunctionName']
+            c_r = "arn:aws:logs:region:{}:*".format(account_id)
+            p_r = "arn:aws:logs:region:{}:log-group:[[logGroups]]:*".format(
+                account_id)
+            r = role.create(role_name,
+                            'Default role for {}'.format(self.config['FunctionName']),
+                            self.default_role_policy)
+            if not r:
+                return False
+            pr = role.create_policy(
+                role_name,
+                'Default role for {}'.format(self.config['FunctionName']),
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": "logs:CreateLogGroup",
+                            "Resource": c_r
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                            ],
+                            "Resource": [
+                                p_r
+                            ]
+                        }
+                    ]
+                },
+                account_id
+            )
+            if not pr:
+                return False
+
+            ar = role.attach_policy(role_name, pr['Arn'])
+            if not ar:
+                return False
+            self.config['Role'] = r['Arn']
         if not self.dry:
             self.config['Code'] = {"ZipFile": self.__read_zip__()}
             response = self.client.create_function(**self.config)
@@ -273,7 +332,7 @@ class Lambda(object):
         :param keep_parent:
         :return:
         """
-        base = basename(os.path.dirname(path))
+        base = basename(path)
         if keep_parent:
             len_dir_path = len(path)-len(base)
         else:
