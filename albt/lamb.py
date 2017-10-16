@@ -332,7 +332,7 @@ class Lambda(object):
         :param keep_parent:
         :return:
         """
-        base = basename(os.path.dirname(path))
+        base = basename(path)
         if keep_parent:
             len_dir_path = len(path)-len(base)
         else:

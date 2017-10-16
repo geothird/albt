@@ -165,7 +165,6 @@ twine upload dist/albt-<VERSION>.tar.gz dist/albt-<VERSION>.tar.gz.asc
 ## TODO
 
 - Credentials profile support
-- Add environment variable encryption
 - Add swagger file generation and import for api gateway lambda project
 - Add cloud formation for project roles policies and resources
 
