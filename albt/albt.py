@@ -22,10 +22,7 @@ def version():
     """
     Display albt version
     """
-    with open(os.path.abspath(os.path.join(os.path.dirname(
-            os.path.dirname(__file__)), 'VERSION'))) as version_file:
-        v = version_file.read().strip()
-    click.echo(click.style('albt: ', fg='white') + click.style(v, fg='green'))
+    click.echo(click.style('albt: ', fg='white') + click.style('1.0.2b2', fg='green'))
 
 
 @cli.command()
