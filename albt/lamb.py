@@ -81,6 +81,15 @@ class Lambda(object):
             self.invoke_config = kwargs['invoke_config']
         if not self.payload and 'Payload' in self.invoke_config:
             self.payload = self.invoke_config['Payload']
+        if 'profile' in kwargs:
+            self.profile = kwargs['profile']
+        else:
+            self.profile = None
+        if self.profile:
+            PrintMsg.cmd(self.profile, 'PROFILE')
+            boto3.setup_default_session(profile_name=self.profile)
+        else:
+            PrintMsg.cmd('Default', 'PROFILE')
         PrintMsg.debug = self.debug
         self.libraries = []
         if 'libraries' in kwargs and kwargs['libraries']:
@@ -254,7 +263,7 @@ class Lambda(object):
             PrintMsg.out(response)
         PrintMsg.cmd('Sha256: {}'.format(
             response['CodeSha256']), 'UPDATED CODE')
-        self.__delete_zip__()
+        # self.__delete_zip__()
         if not self.dry:
             response = self.client.update_function_configuration(
                 **self.config)
@@ -271,8 +280,7 @@ class Lambda(object):
         self.__details__()
         self.__zip_function__()
         if account_id and not self.dry and ('Role' not in self.config or not self.config['Role']):
-            # Create a default role when one was not specified
-            role = IamRole(self.debug)
+            role = IamRole(self.debug, self.profile)
             role_name = self.config['FunctionName']
             c_r = "arn:aws:logs:region:{}:*".format(account_id)
             p_r = "arn:aws:logs:region:{}:log-group:[[logGroups]]:*".format(
@@ -321,7 +329,7 @@ class Lambda(object):
                 PrintMsg.out(response)
             PrintMsg.cmd(response['CodeSha256'], 'CREATED')
             self.config.pop('Code', None)
-        self.__delete_zip__()
+        # self.__delete_zip__()
 
     @staticmethod
     def zip_add_dir(path, zipf, keep_parent=False):

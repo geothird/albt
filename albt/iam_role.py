@@ -10,12 +10,15 @@ class IamRole(object):
     Iam Role
     Create and update roles
     """
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, profile=None):
         """
         Init
         :param debug:
         """
         self.debug = debug
+        self.profile = profile
+        if self.profile:
+            boto3.setup_default_session(profile_name=self.profile)
         PrintMsg.debug = self.debug
         self.client = boto3.client('iam')
 

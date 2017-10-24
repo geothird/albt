@@ -103,6 +103,10 @@ class Project(object):
             self.dry = kwargs['dry']
         if 'func' in kwargs and kwargs['func']:
             self.func = kwargs['func']
+        if 'profile' in kwargs:
+            self.profile = kwargs['profile']
+        else:
+            self.profile = None
         PrintMsg.debug = self.debug
         PrintMsg.cmd('Path {}'.format(self.path), 'INITIALIZING', 'yellow')
         if not self.func:
@@ -143,7 +147,8 @@ class Project(object):
                             dry=self.dry,
                             invoke_config=icf,
                             payload=self.json_payload_file,
-                            invoke_type=self.invoke_type
+                            invoke_type=self.invoke_type,
+                            profile=self.profile
                         )
                     )
 
@@ -244,7 +249,8 @@ class Project(object):
             dry=self.dry,
             invoke_config=icf,
             payload=self.json_payload_file,
-            invoke_type=self.invoke_type
+            invoke_type=self.invoke_type,
+            profile=self.profile
         ).invoke()
 
     def invoke_all(self):
@@ -290,7 +296,8 @@ class Project(object):
             dry=self.dry,
             invoke_config=icf,
             payload=self.json_payload_file,
-            invoke_type=self.invoke_type
+            invoke_type=self.invoke_type,
+            profile=self.profile
         ).create()
         PrintMsg.done('Deploying')
 

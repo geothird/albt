@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from .project import Project
 
 import click
-import os
 
 
 @click.group(invoke_without_command=True)
@@ -22,7 +21,7 @@ def version():
     """
     Display albt version
     """
-    click.echo(click.style('albt: ', fg='white') + click.style('1.0.2b2', fg='green'))
+    click.echo(click.style('albt: ', fg='white') + click.style('1.0.2b3', fg='green'))
 
 
 @cli.command()
@@ -36,7 +35,8 @@ def version():
 @click.option('--debug/--no-debug', default=False,
               help='Show Debugging information')
 @click.option('--dry/--no-dry', default=False, help='Dry Run')
-def deploy(path, func, qualifier, region, venv, libs, debug, dry):
+@click.option('--profile', default=None, help='Change Default profile')
+def deploy(path, func, qualifier, region, venv, libs, debug, dry, profile):
     """
     Deploy lambda functions
     """
@@ -48,7 +48,8 @@ def deploy(path, func, qualifier, region, venv, libs, debug, dry):
         libraries=libs,
         debug=debug,
         region=region,
-        dry=dry
+        dry=dry,
+        profile=profile
     )
 
     if func:
@@ -71,8 +72,9 @@ def deploy(path, func, qualifier, region, venv, libs, debug, dry):
               help='Show Debugging information')
 @click.option('--dry/--no-dry', default=False, help='Dry run')
 @click.option('--d/--no-d', default=False, help='Also deploy')
+@click.option('--profile', default=None, help='Change Default profile')
 def invoke(path, func, payload, invocation, qualifier,
-           region, venv, libs, debug, dry, d):
+           region, venv, libs, debug, dry, d, profile):
     """
     Invoke lambda functions
     """
@@ -86,7 +88,8 @@ def invoke(path, func, payload, invocation, qualifier,
         region=region,
         dry=dry,
         payload=payload,
-        invoke_type=invocation
+        invoke_type=invocation,
+        profile=profile
     )
 
     if func:
@@ -118,9 +121,10 @@ def invoke(path, func, payload, invocation, qualifier,
               help='Show Debugging information')
 @click.option('--dry/--no-dry', default=False, help='Dry run')
 @click.option('--d/--no-d', default=False, help='Also deploy')
+@click.option('--profile', default=None, help='Change Default profile')
 def new(path, func, handler, role, memory, timeout,
         description, runtime, name, region, venv, libs,
-        qualifier, debug, dry, d):
+        qualifier, debug, dry, d, profile):
     """
     Create new lambda function
     """
@@ -134,7 +138,8 @@ def new(path, func, handler, role, memory, timeout,
         Timeout=timeout,
         Description=description,
         Tuntime=runtime,
-        Region=region
+        Region=region,
+        profile=profile
     )
 
     if d:
@@ -145,5 +150,6 @@ def new(path, func, handler, role, memory, timeout,
             libraries=libs,
             debug=debug,
             region=region,
-            dry=dry
+            dry=dry,
+            profile=profile
         ).deploy(func)
