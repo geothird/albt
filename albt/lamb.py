@@ -263,7 +263,7 @@ class Lambda(object):
             PrintMsg.out(response)
         PrintMsg.cmd('Sha256: {}'.format(
             response['CodeSha256']), 'UPDATED CODE')
-        # self.__delete_zip__()
+        self.__delete_zip__()
         if not self.dry:
             response = self.client.update_function_configuration(
                 **self.config)

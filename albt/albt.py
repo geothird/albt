@@ -21,7 +21,7 @@ def version():
     """
     Display albt version
     """
-    click.echo(click.style('albt: ', fg='white') + click.style('1.0.2b3', fg='green'))
+    click.echo(click.style('albt: ', fg='white') + click.style('1.0.2b4', fg='green'))
 
 
 @cli.command()
